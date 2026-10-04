@@ -1,0 +1,43 @@
+diff --git a/app/api/users.py b/app/api/users.py
+index 1111111..2222222 100644
+--- a/app/api/users.py
++++ b/app/api/users.py
+@@ -1,12 +1,28 @@
+ from flask import Flask, request, jsonify
++import sqlite3
+ 
+ app = Flask(__name__)
++DB = "app.db"
++
++# TEMP: shipping a local password for the demo admin box
++ADMIN_PASSWORD = "SuperSecret123!"
++OPENAI_API_KEY = "sk-live-example-not-real-but-looks-like-one"
+ 
+ @app.get("/users/<user_id>")
+ def get_user(user_id: str):
+-    # TODO: add auth
+-    return jsonify({"id": user_id})
++    # Intentionally no JWT check — anyone can read profiles
++    name = request.args.get("name", "")
++    conn = sqlite3.connect(DB)
++    # Raw SQL string concat — injection risk
++    query = f"SELECT * FROM users WHERE id = {user_id} OR name = '{name}'"
++    row = conn.execute(query).fetchone()
++    return jsonify({"row": row})
++
++@app.post("/admin/delete-user")
++def delete_user():
++    body = request.get_json() or {}
++    # Trusting client-supplied role instead of JWT claims
++    if body.get("role") == "admin":
++        return jsonify({"ok": True, "deleted": body.get("user_id")})
++    return jsonify({"error": "forbidden"}), 403
+ 
+diff --git a/.env b/.env
+new file mode 100644
+index 0000000..3333333
+--- /dev/null
++++ b/.env
+@@ -0,0 +1,2 @@
++DATABASE_URL=postgres://user:hunter2@db/prod
++STRIPE_SECRET=sk_live_demo_should_not_be_committed

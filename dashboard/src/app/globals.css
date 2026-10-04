@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #e6ecef;
+  --bg-deep: #d5dee4;
+  --ink: #132029;
+  --ink-muted: #4a5d6a;
+  --line: #b7c4cd;
+  --panel: rgba(255, 255, 255, 0.55);
+  --fresh: #0f7a6c;
+  --fresh-soft: #d4efe9;
+  --aging: #9a6b16;
+  --aging-soft: #f3e6c8;
+  --stale: #5c6670;
+  --stale-soft: #dde2e6;
+  --contested: #b42318;
+  --contested-soft: #f8d7d3;
+  --accent: #1b6b8a;
+}
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--ink);
+  --font-sans: var(--font-display);
+  --font-mono: var(--font-mono);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--ink);
+  font-family: var(--font-display), system-ui, sans-serif;
+  background:
+    radial-gradient(1200px 500px at 10% -10%, #c5dde8 0%, transparent 55%),
+    radial-gradient(900px 420px at 90% 0%, #d9e8df 0%, transparent 50%),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg-deep) 100%);
+  background-attachment: fixed;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.55;
+  }
+}
+
+.rise {
+  animation: rise 0.55s ease-out both;
+}
+
+.rise-delay-1 {
+  animation-delay: 0.08s;
+}
+.rise-delay-2 {
+  animation-delay: 0.16s;
+}
+.rise-delay-3 {
+  animation-delay: 0.24s;
+}
+
+.status-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 999px;
+  display: inline-block;
+  animation: pulse-dot 2.2s ease-in-out infinite;
+}
+
+.panel {
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(10px);
+}
+
+.mono {
+  font-family: var(--font-mono), ui-monospace, monospace;
+}

@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "context-vault": {
+      "command": "C:\\Users\\Achyut\\context-vault\\.venv\\Scripts\\python.exe",
+      "args": ["-m", "context_vault.mcp_server"],
+      "cwd": "C:\\Users\\Achyut\\context-vault",
+      "env": {
+        "PYTHONPATH": "C:\\Users\\Achyut\\context-vault"
+      }
+    }
+  }
+}
